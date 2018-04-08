@@ -49,6 +49,19 @@ printf("Enter unique name for this datbase \n");
 char databaseName[100];
 scanf(" %s" , databaseName);
 puts(databaseName);
+FILE *fp;
+
+fp = fopen("db", "a");
+fprintf(fp , "%s" , databaseName);
+
+for(int ck=0; ck<row; ck++){
+fprintf(fp , "%i " , Rseats[ck]);
+for(int cl=0; cl<col; cl++){
+fprintf( fp , "%c" , Cseats[cl]);
+}
+}
+
+
 }
 
 
