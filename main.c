@@ -94,15 +94,35 @@ fputs(":", fp);
 
 // open database
 else if(option =='2'){
+ FILE *meta;
+if(( meta = fopen("metaData" , "r+") ) == NULL){
+printf("File Is Missing. Find it \n");
+exit(1);
+}
 
-char dbName[100];
+int sizeBN;
+
+// GETS EXACT size to be used
+fseek(meta, 0L, SEEK_END);
+sizeBN = ftell(meta);
+rewind(meta);
+char bufferName[sizeBN];
+
 printf("Select Database you want to open \n");
-printf("Following are the available databases in system");
-FILE *mfp;
-mfp = fopen("metadata" , "r");
-fscanf(mfp, "%s" ,dbName);
-printf("%s" ,dbName);
-fclose(mfp); 
+printf("Following are the available databases in system \n");
+
+
+ fgets(bufferName, sizeBN , meta);
+ 
+
+//extract alog
+
+ int tt =0;
+ for(int ba=0; ba<sizeBN; ba++){
+  if(bufferName[ba]==':'){
+  tt = ba;
+  
+ }
 
 }
 
