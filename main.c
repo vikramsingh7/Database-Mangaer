@@ -1,8 +1,39 @@
-
+#include<string.h>
 #include<stdlib.h>
 #include<stdio.h>
 
-// function to create seats
+
+
+int  getSubString(char *source, char *target,int from, int to)
+{
+        int length=0;
+        int i=0,j=0;
+
+        //get length
+        while(source[i++]!='\0')
+                length++;
+
+        if(from<0 || from>length){
+                printf("Invalid \'from\' index\n");
+                return 1;
+        }
+        if(to>length){
+                printf("Invalid \'to\' index\n");
+                return 1;
+        }
+
+        for(i=from,j=0;i<=to;i++,j++){
+                target[j]=source[i];
+        }
+
+        //assign NULL at the end of string
+        target[j]='\0';
+
+        return 0;
+}
+//The above function is taken from a website for the functionality to extract a substring from a string
+//Link: //http://www.includehelp.com/c-programs/extract-a-portion-of-string-substring-extracting.aspx
+
 
 int main(){
 
@@ -78,6 +109,7 @@ Rseats[i] = go;
 
 
   //table being sent here
+  fprintf(fp , "%s;" , databaseName);
   for(int ck=0; ck<row; ck++){
   fprintf(fp , "%i" , Rseats[ck]);
   for(int cl=0; cl<col; cl++){
@@ -106,25 +138,79 @@ int sizeBN;
 fseek(meta, 0L, SEEK_END);
 sizeBN = ftell(meta);
 rewind(meta);
+
+// Creates a buffer to load a file content that has the name of all the databases.
 char bufferName[sizeBN];
 
 printf("Select Database you want to open \n");
 printf("Following are the available databases in system \n");
 
-
  fgets(bufferName, sizeBN , meta);
  
+//extract alog0
+char subStr[100];
 
-//extract alog
+ int fs =0;
+ int ls =0;
+ 
+         for(int ba=0; ba<sizeBN; ba++){
+         if(bufferName[ba]==':'){
+         ls = ba;
+         getSubString(bufferName, subStr,fs, ls-1);
+         printf("--%s \n" ,subStr);
+         }
+         else if(bufferName[ba]==' '){
+         fs = ba+1;
+         }
+         }
 
- int tt =0;
- for(int ba=0; ba<sizeBN; ba++){
-  if(bufferName[ba]==':'){
-  tt = ba;
+
+ // Grabbing number of chars in database
+       printf("Enter name of database to open: ");
+       char nameEntered[100];
+       scanf(" %s" , nameEntered);
+       int cmp = -1;
+       char sizeOfD[10];
+       
+         
   
- }
+         for(int bba=0; bba<sizeBN; bba++){
+         if(bufferName[bba]==':'){
+         ls = bba;
+         getSubString(bufferName, subStr,fs, ls-1);
+         cmp = strcmp(subStr, nameEntered);
+         if(cmp == 0){
+          for(int baa=ls+1; baa<sizeBN; baa++){
+              if(bufferName[baa]==' '){
+                     getSubString(bufferName, sizeOfD, bba+1, baa-1);
+                     //Gets Extracted
+                                      }
+                                             }
+                     }
+                                  }
 
-}
+         else if(bufferName[bba]==' '){
+         fs =bba+1;
+                                      }
+                                            }
+
+
+
+
+  // LOAD TABLE HERE          NEED ALGO 
+    
+  
+
+   }// section ends
+
+
+
+
+
+
+
+
+
 
 
 // delete database
