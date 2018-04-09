@@ -163,7 +163,11 @@ char subStr[100];
          fs = ba+1;
          }
          }
+    
 
+    // setting them 0 so can be used again
+   fs =0;
+   ls =0;
 
  // Grabbing number of chars in database
        printf("Enter name of database to open: ");
@@ -184,6 +188,7 @@ char subStr[100];
               if(bufferName[baa]==' '){
                      getSubString(bufferName, sizeOfD, bba+1, baa-1);
                      //Gets Extracted
+                    printf("size is %s", sizeOfD);
                                       }
                                              }
                      }
@@ -196,12 +201,27 @@ char subStr[100];
 
 
 
-
+  // USE PTHREADS HERE
   // LOAD TABLE HERE          NEED ALGO 
-    
-  
+ // FILE *dap;
+ // dap = fopen("db" ,"r+");
+ // int sizOD =0;
+ 
+  // GETS EXACT size to be used
+   // fseek(dap, 0L, SEEK_END);
+   // sizOD = ftell(dap);
+    //rewind(dap);
+ 
+  //  printf("Size of file %d ", sizOD);
+//   printf("Size of table %s " , sizeOfD);
+   //char bigBuffer[10000];
 
-   }// section ends
+
+   //fgets(bigBuffer, 1000 , dap);
+  //puts(bigBuffer);
+
+   
+   }// section ends // check if file closed
 
 
 
