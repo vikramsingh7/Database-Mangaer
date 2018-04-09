@@ -10,7 +10,7 @@ printf("Welcome to Airline Database Management System \n");
 printf("1) Create Databases \n");
 printf("2) Open Databases  \n");
 printf("3) Remove Databases \n");
-
+printf("4) Create Archive \n");
 char option;
 option = getchar();
 
@@ -24,6 +24,14 @@ int row =0;
 printf("Enter number of rows in your plane \n");
 scanf(" %d" , &row);
 int col = 5;
+int charGoing = 0;
+
+
+
+    //character being sent
+      charGoing = 6*row;
+
+
 
 int  Rseats[row];
 char  Cseats[5] = {'A', 'B' , 'C', 'D'};
@@ -36,39 +44,66 @@ Rseats[i] = go;
 }
 
 //View table
-for(int k=0; k<row; k++){
-printf(" %i " , Rseats[k]);
-for(int l=0; l<col; l++){
-printf(" %c " , Cseats[l]);
-}
-printf(" \n");
-}
-
-printf("Database Created Sucessfully\n");
-printf("Enter unique name for this datbase \n");
-char databaseName[100];
-scanf(" %s" , databaseName);
-puts(databaseName);
-FILE *fp;
-
-fp = fopen("db", "a");
-fprintf(fp , "%s" , databaseName);
-
-for(int ck=0; ck<row; ck++){
-fprintf(fp , "%i " , Rseats[ck]);
-for(int cl=0; cl<col; cl++){
-fprintf( fp , "%c" , Cseats[cl]);
-}
-}
+     for(int k=0; k<row; k++){
+     printf(" %i " , Rseats[k]);
+     for(int l=0; l<col; l++){
+     printf(" %c " , Cseats[l]);
+     }  
+     printf(" \n");
+     }
 
 
+
+
+
+
+
+  printf("Database Created Sucessfully\n");
+  printf("Enter unique name for this datbase \n");
+  char databaseName[100];
+  scanf(" %s" , databaseName);
+  
+
+  FILE *fp; //table file
+  FILE *mfp; //metadata file
+  fp = fopen("db", "a");//table file
+  mfp = fopen("metaData", "a"); //metadata file
+
+  
+  //tablename being sent here
+  fprintf(mfp , "%s" , databaseName);
+  fputs(":" , mfp);
+  fprintf(mfp , "%d" , charGoing);
+  fprintf(mfp, "%s" , " ");
+
+
+  //table being sent here
+  for(int ck=0; ck<row; ck++){
+  fprintf(fp , "%i" , Rseats[ck]);
+  for(int cl=0; cl<col; cl++){
+  fprintf( fp , "%c" , Cseats[cl]);
+  }
+  fputs(" ",fp);
+   }
+fputs(":", fp);
+  fclose(fp);
+  fclose(mfp);
 }
 
 
 
 // open database
 else if(option =='2'){
+
+char dbName[100];
 printf("Select Database you want to open \n");
+printf("Following are the available databases in system");
+FILE *mfp;
+mfp = fopen("metadata" , "r");
+fscanf(mfp, "%s" ,dbName);
+printf("%s" ,dbName);
+fclose(mfp); 
+
 }
 
 
