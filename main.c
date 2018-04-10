@@ -102,6 +102,7 @@ Rseats[i] = go;
 
   
   //tablename being sent here
+ 
   fprintf(mfp , "%s" , databaseName);
   fputs(":" , mfp);
   fprintf(mfp , "%d" , charGoing);
@@ -109,18 +110,21 @@ Rseats[i] = go;
 
 
   //table being sent here
-  fprintf(fp , "%s;" , databaseName);
-  for(int ck=0; ck<row; ck++){
-  fprintf(fp , "%i" , Rseats[ck]);
-  for(int cl=0; cl<col; cl++){
-  fprintf( fp , "%c" , Cseats[cl]);
-  }
-  fputs(" ",fp);
-   }
-fputs(":", fp);
+ 
+fprintf(fp, "%s" ," ");
+fprintf(fp , "%s" , databaseName);
+ fprintf(fp , "%s" , ";");
+for(int ra=0; ra<row; ra++){
+fprintf(fp, "%i" , Rseats[ra]);
+fputs(Cseats ,fp );
+}
+fprintf(fp ,"%s" ,":");
+
   fclose(fp);
   fclose(mfp);
-}
+
+
+}//lAst
 
 
 
@@ -188,7 +192,8 @@ char subStr[100];
               if(bufferName[baa]==' '){
                      getSubString(bufferName, sizeOfD, bba+1, baa-1);
                      //Gets Extracted
-                    printf("size is %s", sizeOfD);
+                    printf("Really Important: %s \n", sizeOfD);
+                 
                                       }
                                              }
                      }
@@ -199,26 +204,74 @@ char subStr[100];
                                       }
                                             }
 
+     fclose(meta);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   // USE PTHREADS HERE
-  // LOAD TABLE HERE          NEED ALGO 
- // FILE *dap;
- // dap = fopen("db" ,"r+");
- // int sizOD =0;
+  // LOAD TABLE HERE NEED ALGO 
+   FILE *dap;
+   dap = fopen("db" ,"r+");
+   int sizOFile =0;
  
   // GETS EXACT size to be used
-   // fseek(dap, 0L, SEEK_END);
-   // sizOD = ftell(dap);
-    //rewind(dap);
+    fseek(dap, 0L, SEEK_END);
+    sizOFile = ftell(dap);
+    rewind(dap);
  
-  //  printf("Size of file %d ", sizOD);
-//   printf("Size of table %s " , sizeOfD);
-   //char bigBuffer[10000];
+   printf("Name Entered %s \n" , nameEntered);
+   printf("Size of Database file %d \n", sizOFile);
+   printf("Size of table to be extracted %s \n" , sizeOfD);
+   char bigBuffer[sizOFile];
 
+   fread(bigBuffer, 1000 , 1, dap);
+   puts(bigBuffer);
 
-   //fgets(bigBuffer, 1000 , dap);
-  //puts(bigBuffer);
+    char extractedName[100];
+     
+ 
+
+// Redeclaring variables
+fs=0;
+ls=0;
+
+for(int sahil=0; sahil<sizOFile; sahil++){
+     if(bigBuffer[sahil]==' '){
+        fs=sahil+1;
+}
+else if(bigBuffer[sahil] == ';'){
+ls = sahil-1;
+getSubString(bigBuffer, extractedName,fs, ls);
+puts(extractedName);
+if(strcmp(extractedName, nameEntered)==0){
+printf("yes");
+}
+
+}
+
+}
 
    
    }// section ends // check if file closed
