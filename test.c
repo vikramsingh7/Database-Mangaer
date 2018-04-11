@@ -3,10 +3,14 @@
 #include<string.h>
 int main(){
 
-int aa = 4;
+//int aa;
 
-char bb[155];
+char bb[2] = "ab";
 
- scanf("%s" , bb);
+//sscanf(bb, "%d" , &aa);
+
+printf("%c" , bb[0]);
+
+
 }
 

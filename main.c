@@ -106,7 +106,7 @@ Rseats[i] = go;
   fprintf(mfp , "%s" , databaseName);
   fputs(":" , mfp);
   fprintf(mfp , "%d" , charGoing);
-  fprintf(mfp, "%s" , " ");
+  fprintf(mfp, "%s" , ";");
 
 
   //table being sent here
@@ -128,14 +128,16 @@ fprintf(fp ,"%s" ,":");
 
 
 
-// open database
-else if(option =='2'){
- FILE *meta;
-if(( meta = fopen("metaData" , "r+") ) == NULL){
-printf("File Is Missing. Find it \n");
-exit(1);
-}
+  // open database
+  else if(option =='2'){
 
+
+ FILE *meta;
+ if(( meta = fopen("metaData" , "r+") ) == NULL){
+  printf("File Is Missing. Find it \n");
+  exit(1);
+                                                  }
+//Size of names file
 int sizeBN;
 
 // GETS EXACT size to be used
@@ -143,15 +145,19 @@ fseek(meta, 0L, SEEK_END);
 sizeBN = ftell(meta);
 rewind(meta);
 
+
+
 // Creates a buffer to load a file content that has the name of all the databases.
 char bufferName[sizeBN];
+
+
 
 printf("Select Database you want to open \n");
 printf("Following are the available databases in system \n");
 
- fgets(bufferName, sizeBN , meta);
+fgets(bufferName, sizeBN , meta);
  
-//extract alog0
+//printing names of database from metaData file
 char subStr[100];
 
  int fs =0;
@@ -163,52 +169,58 @@ char subStr[100];
          getSubString(bufferName, subStr,fs, ls-1);
          printf("--%s \n" ,subStr);
          }
-         else if(bufferName[ba]==' '){
+         else if(bufferName[ba]==';'){
          fs = ba+1;
          }
          }
     
 
-    // setting them 0 so can be used again
-   fs =0;
-   ls =0;
+        // setting them 0 so can be used again
+        fs =0;
+        ls =0;
 
- // Grabbing number of chars in database
+       // User enters name here
        printf("Enter name of database to open: ");
        char nameEntered[100];
        scanf(" %s" , nameEntered);
        int cmp = -1;
        char sizeOfD[10];
-       
-         
-  
+ 
+         // Size of database gets extracted here
          for(int bba=0; bba<sizeBN; bba++){
          if(bufferName[bba]==':'){
          ls = bba;
          getSubString(bufferName, subStr,fs, ls-1);
          cmp = strcmp(subStr, nameEntered);
          if(cmp == 0){
-          for(int baa=ls+1; baa<sizeBN; baa++){
-              if(bufferName[baa]==' '){
-                     getSubString(bufferName, sizeOfD, bba+1, baa-1);
-                     //Gets Extracted
-                    printf("Really Important: %s \n", sizeOfD);
-                 
+         for(int baa=ls+1; baa<sizeBN; baa++){
+
+         if((bufferName[baa]==';') || (bufferName[baa]=='\n')){ // Implement chagne here
+         getSubString(bufferName, sizeOfD, bba+1, baa);
+         //Gets Extracted
+         
+            break;
                                       }
                                              }
-                     }
-                                  }
 
-         else if(bufferName[bba]==' '){
+                     }
+
+
+
+                                  }
+         else if(bufferName[bba]==';'){
          fs =bba+1;
                                       }
-                                            }
+                                            }// For loop ends here
 
      fclose(meta);
 
 
 
 
+//Convert String into int which is extracted size of dtabase
+int  intDSize;
+sscanf(sizeOfD, "%d" , &intDSize);
 
 
 
@@ -230,50 +242,94 @@ char subStr[100];
 
 
 
-  // USE PTHREADS HERE
+  
   // LOAD TABLE HERE NEED ALGO 
-   FILE *dap;
-   dap = fopen("db" ,"r+");
-   int sizOFile =0;
- 
-  // GETS EXACT size to be used
+    FILE *dap;
+    dap = fopen("db" ,"r+");
+    int sizOFile =0;
+  
+
+  // GETS EXACT size of database file to be used
     fseek(dap, 0L, SEEK_END);
     sizOFile = ftell(dap);
     rewind(dap);
  
-   printf("Name Entered %s \n" , nameEntered);
-   printf("Size of Database file %d \n", sizOFile);
-   printf("Size of table to be extracted %s \n" , sizeOfD);
+  // printf("Name Entered %s \n" , nameEntered);
+  // printf("Size of Database file %d \n", sizOFile);
+  // printf("Size of table to be extracted %d \n" , intDSize);
    char bigBuffer[sizOFile];
 
+
+
+
+
+   //File data gets loaded to array bigbuffer
    fread(bigBuffer, 1000 , 1, dap);
-   puts(bigBuffer);
-
-    char extractedName[100];
-     
- 
-
-// Redeclaring variables
-fs=0;
-ls=0;
-
-for(int sahil=0; sahil<sizOFile; sahil++){
-     if(bigBuffer[sahil]==' '){
-        fs=sahil+1;
-}
-else if(bigBuffer[sahil] == ';'){
-ls = sahil-1;
-getSubString(bigBuffer, extractedName,fs, ls);
-puts(extractedName);
-if(strcmp(extractedName, nameEntered)==0){
-printf("yes");
-}
-
-}
-
-}
-
    
+
+    //Name that will be extracted from file and table that will be extracted
+    char extractedName[100];
+    char outputTable[intDSize];
+
+
+              // Redeclaring variables
+              fs=0;
+              ls=0;
+
+           for(int sahil=0; sahil<sizOFile; sahil++){
+           if(bigBuffer[sahil]==' '){
+           fs=sahil+1;
+                                    }
+           else if(bigBuffer[sahil] == ';'){
+           ls = sahil-1;
+           getSubString(bigBuffer, extractedName,fs, ls);
+           if(strcmp(extractedName, nameEntered)==0){
+           int upto = intDSize + sahil;
+           getSubString(bigBuffer, outputTable, sahil+1, upto-1);
+           puts(outputTable);
+           break;
+                                                     }
+
+                                              }
+                                                        }//for loop ends here
+
+
+
+ fclose(dap);
+
+//HERE COMES THE BOOKING
+
+//Formatting algo
+
+printf("Seat Table: \n");
+for(int song=0; song<intDSize; song++){
+
+if(outputTable[song]==':'){
+break;
+                          }
+if((outputTable[song]=='A') || (outputTable[song]=='B') || (outputTable[song]=='C') || (outputTable[song]=='D')){
+printf(" ");
+                                                          }
+
+printf("%c" ,outputTable[song]);
+
+if(outputTable[song]=='D'){
+printf("\n");
+                          }
+                                     }
+
+
+//Asking seat number
+char seatNumber[100];
+
+printf("The booked seat will be marked as X \n");
+printf("Enter seat number (For example 2A) \n");
+
+scanf("%s--" , seatNumber); 
+
+puts(seatNumber);
+
+
    }// section ends // check if file closed
 
 

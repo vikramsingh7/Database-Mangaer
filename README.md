@@ -42,7 +42,7 @@ Ask how many seats do they want to enter in it and unique name for the database.
 Then exits form option 1 and database gets saved to db file.
 
 2) Open Database 
-
+The database that you enter most recent won't be open due to programming faults.
 After Creating database user opens this option
 
 Opens already existed databases
