@@ -330,9 +330,55 @@ scanf("%s--" , seatNumber);
 puts(seatNumber);
 
 
-   }// section ends // check if file closed
+//splitting seats
+
+int sizeOfSeat = 0;
+sizeOfSeat = strlen(seatNumber);
+  //printf("Size of Seat is%d" , sizeOfSeat);
+
+ //char rowSeat[10];
+ char colSeat;
+ char rowSeat[15];
+ colSeat = seatNumber[sizeOfSeat - 1];
+ getSubString(seatNumber, rowSeat,0 , sizeOfSeat-2);
+ printf("Is it col %c " , colSeat);
+  
 
 
+// Algo to book seat
+int tech =3;
+char going[5];
+         for(int office=0; office<intDSize; office++){
+         if(office == 1000){
+         tech++;}
+         if((outputTable[office] == 'D') || (office==0)){
+        
+         for(int room=office; room<=tech+office; room++){
+        
+         if(outputTable[room] == 'A'){
+        
+         getSubString(outputTable, going, office+1, room-1);
+         if(strcmp(going, rowSeat)==0){
+       
+           printf("room is %d \n" , room);
+         printf(" office is %d \n" , office);
+
+         for(int val=room; val<room+4; val++){
+             printf("Outputable val %c \n", outputTable[val]);
+                                           }
+ break;
+                                      }
+                                      }
+                                                  }
+                                                         }
+
+                                                       }                         
+
+
+
+
+
+}// section ends // check if file closed
 
 
 
