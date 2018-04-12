@@ -364,8 +364,14 @@ char going[5];
          printf(" office is %d \n" , office);
 
          for(int val=room; val<room+4; val++){
-             printf("Outputable val %c \n", outputTable[val]);
-                                           }
+
+          printf("colseat is %c \n" , colSeat);
+            if(colSeat == 'A'){ outputTable[val]='X'; break;    }
+            else if(colSeat == 'B'){  outputTable[val]='X'; break;}     
+            else if(colSeat == 'C'){ outputTable[val]='X'; break;}
+            else if(colSeat == 'D'){ outputTable[val]='X'; break;}
+                          
+                                             }
  break;
                                       }
                                       }
@@ -376,7 +382,7 @@ char going[5];
 
 
 
-
+puts(outputTable);
 
 }// section ends // check if file closed
 
